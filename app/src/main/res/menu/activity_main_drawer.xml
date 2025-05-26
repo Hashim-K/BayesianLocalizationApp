@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_wifi_scan"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="@string/menu_wifi_scan" />
+        <item
+            android:id="@+id/nav_db_view"
+            android:icon="@android:drawable/ic_menu_save"
+            android:title="@string/menu_db_view" />
+        <item
+            android:id="@+id/nav_histogram_view"
+            android:icon="@android:drawable/ic_menu_recent_history"
+            android:title="@string/menu_histogram_view" />
+        <item
+            android:id="@+id/nav_pmf_view"
+            android:icon="@android:drawable/ic_menu_recent_history"
+            android:title="@string/menu_pmf_view" />
+        <item
+            android:id="@+id/nav_bayesian_testing"
+            android:icon="@android:drawable/checkbox_on_background"
+        android:title="@string/menu_bayesian_testing" />
+    </group>
+</menu>

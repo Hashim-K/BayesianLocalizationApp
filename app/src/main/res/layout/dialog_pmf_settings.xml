@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/label_bin_width_range_generate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bin Width Range for Generation: 1 - 5" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/rangeslider_bin_width_generate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:valueFrom="1"
+        android:valueTo="20"
+        app:values="@array/initial_bin_width_range" />
+    <!-- stepSize can be used if you want discrete steps, e.g., app:stepSize="1" -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Processing Features (Future):" />
+
+    <Spinner
+        android:id="@+id/spinner_pmf_features"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:layout_marginTop="4dp"/>
+
+</LinearLayout>

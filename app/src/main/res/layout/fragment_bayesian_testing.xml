@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.testing.BayesianTestingFragment">
+
+
+    <TextView
+        android:id="@+id/text_testing_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Press 'Run Testing' to start evaluation."
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/button_run_bayesian_testing"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Run Testing"
+        app:layout_constraintTop_toBottomOf="@id/text_testing_status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/button_clear_testing_results"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Clear Results"
+        app:layout_constraintTop_toBottomOf="@id/button_run_bayesian_testing"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+
+    <TextView
+        android:id="@+id/text_accuracy_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Overall Accuracy:"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/button_clear_testing_results"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/text_overall_accuracy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="N/A"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@id/text_accuracy_label"
+        app:layout_constraintStart_toEndOf="@id/text_accuracy_label"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/text_correct_predictions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Correct: 0"
+        app:layout_constraintTop_toBottomOf="@id/text_overall_accuracy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/text_total_predictions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Total: 0"
+        app:layout_constraintTop_toBottomOf="@id/text_correct_predictions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/text_results_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Per-Test Results:"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/text_total_predictions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/text_results_header"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/text_individual_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:textSize="12sp"
+            tools:text="Time: 1234, True: C1, Pred: C1, Prob: 0.8, Status: CORRECT\n..." />
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_testing_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/ic_settings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Bayesian Testing Settings"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

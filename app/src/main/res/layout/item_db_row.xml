@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
+    <TextView
+        android:id="@+id/text_col1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:textSize="12sp"
+        android:fontFamily="monospace"
+        tools:text="AA:BB:CC:DD:EE:FF"/>
+
+    <TextView
+        android:id="@+id/text_col2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:textSize="12sp"
+        android:fontFamily="monospace"
+        tools:text="My Network SSID"/>
+
+    <TextView
+        android:id="@+id/text_col3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:gravity="end"
+        android:textSize="12sp"
+        android:fontFamily="monospace"
+        tools:text="-55 dBm"/>
+</LinearLayout>

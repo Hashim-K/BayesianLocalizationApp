@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.pmf.PmfViewFragment"
+    android:padding="8dp">
+
+    <!-- Top: BSSID Selection -->
+    <TextView
+        android:id="@+id/label_select_bssid_pmf_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select BSSID (Fixed APs):"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button_prev_bssid_pmf"
+        android:layout_width="48dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_arrow_left"
+        app:layout_constraintTop_toTopOf="@id/spinner_select_bssid_pmf_view"
+        app:layout_constraintBottom_toBottomOf="@id/spinner_select_bssid_pmf_view"
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="Previous BSSID"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_marginEnd="4dp"/>
+
+    <Spinner
+        android:id="@+id/spinner_select_bssid_pmf_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        app:layout_constraintTop_toBottomOf="@id/label_select_bssid_pmf_view"
+        app:layout_constraintStart_toEndOf="@id/button_prev_bssid_pmf"
+        app:layout_constraintEnd_toStartOf="@id/button_next_bssid_pmf"
+        android:background="@android:drawable/btn_dropdown"
+        android:layout_marginTop="4dp"/>
+
+    <ImageButton
+        android:id="@+id/button_next_bssid_pmf"
+        android:layout_width="48dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintTop_toTopOf="@id/spinner_select_bssid_pmf_view"
+        app:layout_constraintBottom_toBottomOf="@id/spinner_select_bssid_pmf_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Next BSSID"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_marginStart="4dp"/>
+
+    <!-- Middle: View Bin Width Slider -->
+    <TextView
+        android:id="@+id/label_view_bin_width"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View PMF for Bin Width: 1"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/spinner_select_bssid_pmf_view"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <SeekBar
+        android:id="@+id/seekbar_view_bin_width"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:max="20"
+        android:min="1"
+        android:progress="1"
+        app:layout_constraintTop_toBottomOf="@id/label_view_bin_width"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Heatmap/Table Area -->
+    <TextView
+        android:id="@+id/text_pmf_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Generate PMFs to view data."
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/seekbar_view_bin_width"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <HorizontalScrollView
+        android:id="@+id/horizontal_scroll_pmf_table"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/text_pmf_status"
+        app:layout_constraintBottom_toTopOf="@id/layout_pmf_actions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:fillViewport="true">
+
+        <TableLayout
+            android:id="@+id/table_layout_pmf_heatmap"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:stretchColumns="*" />
+    </HorizontalScrollView>
+
+
+    <!-- Bottom Action Bar -->
+    <LinearLayout
+        android:id="@+id/layout_pmf_actions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/button_generate_pmf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Generate PMFs"
+            android:layout_marginEnd="8dp"/>
+
+        <ImageButton
+            android:id="@+id/button_pmf_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_settings"
+            android:contentDescription="PMF Settings"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"/>
+
+        <ImageButton
+            android:id="@+id/button_clear_pmf_table"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_delete"
+            android:contentDescription="Clear PMF Table"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

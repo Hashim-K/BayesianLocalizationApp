@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="database_tables">
+        <item>Known APs</item>
+        <item>Known APs (Prime)</item>
+        <item>Measurements</item>
+        <item>Measurement Times</item>
+        <item>Accelerometer</item>
+        <item>Oui Manufacturers</item>
+    </string-array>
+
+    <string-array name="knn_k_values">
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>7</item>
+        <item>9</item>
+    </string-array>
+
+    <string-array name="distance_types">
+        <item>Euclidean</item>
+        <item>Mahalanobis</item>
+    </string-array>
+
+    <string-array name="pmf_features">
+        <item>None</item>
+        <item>Gaussian Kernel (NYI)</item>
+        <item>Interpolation (NYI)</item>
+    </string-array>
+
+    <array name="initial_bin_width_range">
+        <item>1</item> <!-- Initial Min Value -->
+        <item>5</item> <!-- Initial Max Value -->
+    </array>
+
+    <string-array name="parallel_selection_methods">
+        <item>Highest Probability</item>
+        <item>Mode (NYI)</item>
+    </string-array>
+</resources>

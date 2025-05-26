@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Assignment 2</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Group 23</string>s
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_wifi_scan">Wifi Scan</string>
+    <string name="menu_acc_read">Accelerometer Read</string>
+    <string name="menu_acc_guess">Accelerometer Guess</string>
+    <string name="menu_db_view">DB View</string>
+    <string name="menu_rssi_guess">RSSI Location Guess</string>
+    <string name="menu_histogram_view">Histogram</string>
+    <string name="menu_pmf_view">PMF View</string>
+    <string name="menu_bayesian_testing">Bayesian Testing</string>
+
+
+    <string name="db_view_select_prompt">Select Table:</string> 
+    <string name="db_view_loading">Loading data...</string> 
+    <string name="db_view_empty">Table is empty.</string> 
+    <string name="db_view_error">Error loading data.</string> 
+</resources>

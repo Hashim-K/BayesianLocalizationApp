@@ -1,0 +1,23 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Assignment2" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Slightly dimmer purple for dark mode -->
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/black</item>
+
+        <!-- Same secondary setup -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Grid color override -->
+        <item name="gridColor">@color/gray_dim</item>
+        <item name="cellActiveColor">@color/home_cell_bg</item>
+        <item name="cellButtonActiveBackground">@color/home_cell_bg</item>
+        <item name="cellButtonInactiveBackground">@color/home_cell_bg_light</item>
+        <item name="cellButtonActiveText">@color/white</item>
+        <item name="cellButtonInactiveText">@color/black</item>
+        <item name="homeCellActiveBackground">@color/home_cell_bg_light</item>
+        <item name="homeCellInactiveBackground">@color/home_cell_bg</item>
+    </style>
+</resources>

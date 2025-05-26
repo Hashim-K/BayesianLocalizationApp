@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.histogram.HistogramViewFragment">
+
+    <Button
+        android:id="@+id/button_generate_histograms"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Generate/Refresh Histograms"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/label_bin_width"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bin Width: 1"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/button_generate_histograms"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <SeekBar
+        android:id="@+id/seekbar_bin_width"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:max="20"
+        android:min="1"
+        android:progress="1"
+        app:layout_constraintTop_toBottomOf="@id/label_bin_width"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/label_select_cell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Cell:"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/seekbar_bin_width"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/button_prev_cell"
+        android:layout_width="48dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_arrow_left"
+        app:layout_constraintTop_toTopOf="@id/spinner_select_cell_hist"
+        app:layout_constraintBottom_toBottomOf="@id/spinner_select_cell_hist"
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="Previous Cell"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_marginEnd="8dp"/>
+
+    <Spinner
+        android:id="@+id/spinner_select_cell_hist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        app:layout_constraintTop_toBottomOf="@id/label_select_cell"
+        app:layout_constraintStart_toEndOf="@id/button_prev_cell"
+        app:layout_constraintEnd_toStartOf="@id/button_next_cell"
+        android:layout_marginTop="4dp"
+        android:spinnerMode="dropdown"
+        android:background="@android:drawable/btn_dropdown" />
+
+
+    <ImageButton
+        android:id="@+id/button_next_cell"
+        android:layout_width="48dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintTop_toTopOf="@id/spinner_select_cell_hist"
+        app:layout_constraintBottom_toBottomOf="@id/spinner_select_cell_hist"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Next Cell"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_marginStart="8dp"/>
+
+
+    <TextView
+        android:id="@+id/label_select_bssid_hist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select BSSID (Prime):"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/spinner_select_cell_hist"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Spinner
+        android:id="@+id/spinner_select_bssid_hist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        app:layout_constraintTop_toBottomOf="@id/label_select_bssid_hist"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/text_histogram_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        tools:text="Status: Select a cell and BSSID"
+        app:layout_constraintTop_toBottomOf="@id/spinner_select_bssid_hist"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/bar_chart_histogram"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/text_histogram_status"
+        app:layout_constraintBottom_toTopOf="@id/scroll_view_text_details"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_weight="1"
+        android:visibility="gone" />
+
+
+    <ScrollView
+        android:id="@+id/scroll_view_text_details"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/bar_chart_histogram"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_weight="0.5">
+
+        <TextView
+            android:id="@+id/text_histogram_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:padding="8dp"
+            tools:text="Histogram Details:\nBin -100: 5 (0.10)\nBin -95: 10 (0.20)\n..." />
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+    <fragment
+        android:id="@+id/nav_home"
+    android:name="com.example.assignment2.ui.home.HomeFragment"
+    android:label="@string/menu_home"
+    tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/nav_wifi_scan"
+        android:name="com.example.assignment2.ui.wifi_scan.WifiScanFragment"
+        android:label="@string/menu_wifi_scan"
+        tools:layout="@layout/fragment_wifi_scan" />
+    <fragment
+        android:id="@+id/nav_db_view"
+        android:name="com.example.assignment2.ui.db_view.DbViewFragment"
+        android:label="@string/menu_db_view"
+        tools:layout="@layout/fragment_db_view" />
+    <fragment
+        android:id="@+id/nav_histogram_view"
+        android:name="com.example.assignment2.ui.histogram.HistogramViewFragment"
+        android:label="@string/menu_histogram_view"
+        tools:layout="@layout/fragment_histogram_view" />
+    <fragment
+        android:id="@+id/nav_pmf_view"
+        android:name="com.example.assignment2.ui.pmf.PmfViewFragment"
+        android:label="@string/menu_pmf_view"
+        tools:layout="@layout/fragment_pmf_view" />
+    <fragment
+        android:id="@+id/nav_bayesian_testing"
+        android:name="com.example.assignment2.ui.testing.BayesianTestingFragment"
+        android:label="@string/menu_bayesian_testing"
+        tools:layout="@layout/fragment_bayesian_testing" />
+</navigation>

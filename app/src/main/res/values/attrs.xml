@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="gridColor" format="color" />
+    <attr name="cellActiveColor" format="color" />
+    <attr name="cellButtonActiveBackground" format="color" />
+    <attr name="cellButtonInactiveBackground" format="color" />
+    <attr name="cellButtonActiveText" format="color" />
+    <attr name="cellButtonInactiveText" format="color" />
+    <attr name="homeCellActiveBackground" format="color" />
+    <attr name="homeCellInactiveBackground" format="color" />
+    <attr name="homeCellTextColor" format="color" />
+    <attr name="colorSurface" format="color" />
+    <attr name="colorSurfaceVariant" format="color" />
+</resources>
