@@ -34,7 +34,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.assignment2.R
 import com.example.assignment2.data.db.ApMeasurement
 import com.example.assignment2.data.db.AppDatabase
-import com.example.assignment2.data.db.KnownAp
+// import com.example.assignment2.data.db.KnownAp // REMOVED
 import com.example.assignment2.data.db.KnownApPrime
 import com.example.assignment2.data.db.MeasurementTime
 import com.example.assignment2.data.model.ApType
@@ -90,7 +90,7 @@ class WifiScanFragment : Fragment() {
 
     // Database instances
     private val appDb: AppDatabase by lazy { AppDatabase.getDatabase(requireContext().applicationContext) }
-    private val knownApDao by lazy { appDb.knownApDao() }
+    // private val knownApDao by lazy { appDb.knownApDao() } // REMOVED
     private val measurementDao by lazy { appDb.apMeasurementDao() }
     private val measurementTimeDao by lazy { appDb.measurementTimeDao() }
     private val ouiDao by lazy { appDb.ouiManufacturerDao() }
@@ -510,7 +510,7 @@ class WifiScanFragment : Fragment() {
                 Log.i(logTagDb, "New MeasurementTime ID: $newTimestampId for cell $currentCell, Type: $measurementTypeForThisScan")
 
                 val results = scanResults ?: emptyList()
-                val knownApsToUpsert = mutableListOf<KnownAp>() // For the original known_aps table (full BSSIDs)
+                // val knownApsToUpsert = mutableListOf<KnownAp>() // REMOVED
 
                 // --- Aggregate ScanResults by BSSID Prime to get the strongest signal ---
                 val strongestSignalPerPrimeInCurrentScan = mutableMapOf<String, ScanResult>()
@@ -526,15 +526,16 @@ class WifiScanFragment : Fragment() {
                 Log.d(logTagDb, "Aggregated ${strongestSignalPerPrimeInCurrentScan.size} unique prime BSSIDs from current scan.")
 
                 val apMeasurementsForCurrentTimestamp = mutableListOf<ApMeasurement>()
-                val backfillApMeasurements = mutableListOf<ApMeasurement>() // For all backfilling
+                // val backfillApMeasurements = mutableListOf<ApMeasurement>() // REMOVED
 
-                // Get all existing MeasurementTime IDs *before* this scan
-                val allPreviousTimestampIds = measurementTimeDao.getAllTimestampIds().filter { it != newTimestampId }
-                Log.d(logTagDb, "Found ${allPreviousTimestampIds.size} previous timestamp IDs for potential backfilling.")
+                // Get all existing MeasurementTime IDs *before* this scan // REMOVED (no backfilling)
+                // val allPreviousTimestampIds = measurementTimeDao.getAllTimestampIds().filter { it != newTimestampId } // REMOVED
+                // Log.d(logTagDb, "Found ${allPreviousTimestampIds.size} previous timestamp IDs for potential backfilling.") // REMOVED
+
 
                 // --- Process each unique prime BSSID found in the current scan ---
                 for ((primeBssid, strongestResult) in strongestSignalPerPrimeInCurrentScan) {
-                    val fullBssidForPrimeRep = strongestResult.BSSID
+                    val fullBssidForPrimeRep = strongestResult.BSSID // Retain for OUI extraction and potential logging
                     val currentSsidForPrime = strongestResult.SSID ?: ""
                     var determinedApTypeForPrime = ApType.MOBILE
                     extractOuiFromBssid(fullBssidForPrimeRep)?.let { oui ->
@@ -556,49 +557,31 @@ class WifiScanFragment : Fragment() {
                     }
 
                     // If this primeBssid was "newly discovered" (i.e., not in known_ap_prime before this scan)
-                    // then backfill it for all *previous* timestamps.
-                    if (existingPrimeApEntry == null) {
-                        Log.d(logTagDb, "Prime BSSID $primeBssid is newly discovered. Backfilling for ${allPreviousTimestampIds.size} previous timestamps.")
-                        allPreviousTimestampIds.forEach { prevTimestampId ->
-                            backfillApMeasurements.add(
-                                ApMeasurement(
-                                    bssidPrime = primeBssid,
-                                    timestampId = prevTimestampId,
-                                    rssi = DEFAULT_RSSI // Backfill with default RSSI
-                                )
-                            )
-                        }
-                    }
+                    // then backfill it for all *previous* timestamps. // REMOVED THIS ENTIRE BLOCK
+                    // if (existingPrimeApEntry == null) {
+                    //     Log.d(logTagDb, "Prime BSSID $primeBssid is newly discovered. Backfilling for ${allPreviousTimestampIds.size} previous timestamps.")
+                    //     allPreviousTimestampIds.forEach { prevTimestampId ->
+                    //         backfillApMeasurements.add(
+                    //             ApMeasurement(
+                    //                 bssidPrime = primeBssid,
+                    //                 timestampId = prevTimestampId,
+                    //                 rssi = DEFAULT_RSSI // Backfill with default RSSI
+                    //             )
+                    //         )
+                    //     }
+                    // }
 
                     // Add measurement for the current scan for this primeBssid
                     apMeasurementsForCurrentTimestamp.add(
                         ApMeasurement(
                             bssidPrime = primeBssid,
                             timestampId = newTimestampId,
-                            rssi = strongestResult.level
+                            rssi = strongestResult.level // This uses the strongest signal for the prime BSSID
                         )
                     )
 
-                    // --- Handle original KnownAp table (full BSSIDs) ---
-                    // Upsert the representative full BSSID for this prime
-                    val existingFullKnownAp = knownApDao.getKnownApByBssid(fullBssidForPrimeRep)
-                    val currentFullAp = KnownAp(bssid = fullBssidForPrimeRep, ssid = currentSsidForPrime, apType = determinedApTypeForPrime)
-                    if (existingFullKnownAp == null || existingFullKnownAp.ssid != currentSsidForPrime || existingFullKnownAp.apType != determinedApTypeForPrime) {
-                        knownApsToUpsert.add(currentFullAp)
-                    }
-                    // Also ensure all other full BSSIDs that map to this prime are in known_aps
-                    results.filter { BssidUtil.calculateBssidPrime(it.BSSID) == primeBssid }.forEach { otherResultInGroup ->
-                        val otherFullBssid = otherResultInGroup.BSSID
-                        if (otherFullBssid != fullBssidForPrimeRep) { // Avoid re-processing the representative
-                            val otherExistingFull = knownApDao.getKnownApByBssid(otherFullBssid)
-                            var otherDeterminedType = ApType.MOBILE
-                            extractOuiFromBssid(otherFullBssid)?.let { oui -> if(ouiDao.findByOui(oui) != null) otherDeterminedType = ApType.FIXED }
-                            val otherCurrentFull = KnownAp(bssid = otherFullBssid, ssid = otherResultInGroup.SSID ?: "", apType = otherDeterminedType)
-                            if (otherExistingFull == null || otherExistingFull.ssid != otherCurrentFull.ssid || otherExistingFull.apType != otherDeterminedType) {
-                                knownApsToUpsert.add(otherCurrentFull)
-                            }
-                        }
-                    }
+                    // --- Handle original KnownAp table (full BSSIDs) --- // ENTIRE SECTION REMOVED
+                    // ...
                 } // End of for loop over strongestSignalPerPrimeInCurrentScan
 
                 // --- Handle missing prime APs for the current timestamp ---
@@ -607,33 +590,31 @@ class WifiScanFragment : Fragment() {
                 val detectedPrimeBssidsInCurrentScanSet = strongestSignalPerPrimeInCurrentScan.keys
                 val missingPrimeBssidsForCurrentScan = allKnownPrimeBssidsInDb - detectedPrimeBssidsInCurrentScanSet
 
-                Log.d(logTagDb, "${missingPrimeBssidsForCurrentScan.size} known prime APs were not detected in current scan. Adding with DEFAULT_RSSI for new timestamp $newTimestampId.")
-                missingPrimeBssidsForCurrentScan.forEach { primeBssid ->
-                    apMeasurementsForCurrentTimestamp.add(
-                        ApMeasurement(
-                            bssidPrime = primeBssid,
-                            timestampId = newTimestampId,
-                            rssi = DEFAULT_RSSI
-                        )
-                    )
-                }
+//                Log.d(logTagDb, "${missingPrimeBssidsForCurrentScan.size} known prime APs were not detected in current scan. Adding with DEFAULT_RSSI for new timestamp $newTimestampId.")
+//                missingPrimeBssidsForCurrentScan.forEach { primeBssid ->
+//                    apMeasurementsForCurrentTimestamp.add(
+//                        ApMeasurement(
+//                            bssidPrime = primeBssid,
+//                            timestampId = newTimestampId,
+//                            rssi = DEFAULT_RSSI
+//                        )
+//                    )
+//                }
 
                 // --- Database Insertions ---
-                if (knownApsToUpsert.isNotEmpty()) {
-                    knownApDao.upsertAll(knownApsToUpsert.distinctBy { it.bssid })
-                    Log.d(logTagDb, "Upserted ${knownApsToUpsert.distinctBy { it.bssid }.size} entries to known_aps.")
-                }
+                // if (knownApsToUpsert.isNotEmpty()) { // REMOVED
+                //     knownApDao.upsertAll(knownApsToUpsert.distinctBy { it.bssid }) // REMOVED
+                //     Log.d(logTagDb, "Upserted ${knownApsToUpsert.distinctBy { it.bssid }.size} entries to known_aps.") // REMOVED
+                // } // REMOVED
 
-                val allMeasurementsToInsert = mutableListOf<ApMeasurement>()
-                allMeasurementsToInsert.addAll(apMeasurementsForCurrentTimestamp)
-                allMeasurementsToInsert.addAll(backfillApMeasurements)
+                val allMeasurementsToInsert = apMeasurementsForCurrentTimestamp.toMutableList()
+                // allMeasurementsToInsert.addAll(backfillApMeasurements) // REMOVED
 
                 if (allMeasurementsToInsert.isNotEmpty()) {
-                    // Use distinctBy to handle potential overlaps if a backfill target was also "missing"
-                    // though the logic should prevent this. Safety first.
+                    // Use distinctBy to handle potential overlaps (though less likely without backfilling)
                     val distinctMeasurements = allMeasurementsToInsert.distinctBy { it.bssidPrime to it.timestampId }
                     measurementDao.insertAll(distinctMeasurements)
-                    Log.d(logTagDb, "Inserted ${distinctMeasurements.size} total ApMeasurements (current scan + backfills).")
+                    Log.d(logTagDb, "Inserted ${distinctMeasurements.size} ApMeasurements for current scan.")
                 } else {
                     Log.w(logTagDb, "No ApMeasurements to insert.")
                 }

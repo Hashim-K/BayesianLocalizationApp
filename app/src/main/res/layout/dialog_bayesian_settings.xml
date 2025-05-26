@@ -55,4 +55,21 @@
         android:min="1"
         android:progress="1" />
 
+    <!-- New: Serial Cutoff Probability Setting -->
+    <TextView
+        android:id="@+id/label_serial_cutoff_probability"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Serial Cutoff Probability: 0.80" />
+
+    <SeekBar
+        android:id="@+id/seekbar_serial_cutoff_probability"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:max="100"
+    android:min="0"
+    android:progress="80" />
+
 </LinearLayout>

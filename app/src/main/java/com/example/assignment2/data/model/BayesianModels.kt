@@ -5,11 +5,12 @@ enum class BayesianMode {
 }
 
 enum class ParallelSelectionMethod {
-    HIGHEST_PROBABILITY // For now, only this. Can add MODE later.
+    HIGHEST_PROBABILITY
 }
 
 data class BayesianSettings(
-    val mode: BayesianMode = BayesianMode.PARALLEL, // Default mode
+    val mode: BayesianMode = BayesianMode.PARALLEL,
     val selectionMethod: ParallelSelectionMethod = ParallelSelectionMethod.HIGHEST_PROBABILITY,
-    val pmfBinWidth: Int = 5 // Default bin width to use for PMF lookup
+    val pmfBinWidth: Int = 1,
+    val serialCutoffProbability: Double = 0.8 // New field, default 0.8
 )

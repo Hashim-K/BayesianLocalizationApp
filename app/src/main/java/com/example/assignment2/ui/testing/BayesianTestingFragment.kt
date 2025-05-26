@@ -32,6 +32,7 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.roundToInt
 
 class BayesianTestingFragment : Fragment() {
 
@@ -156,16 +157,26 @@ class BayesianTestingFragment : Fragment() {
         val spinnerSelectionMethod = dialogView.findViewById<Spinner>(R.id.spinner_parallel_selection_method_settings)
         val seekBarPmfBinWidth = dialogView.findViewById<SeekBar>(R.id.seekbar_pmf_bin_width_settings)
         val labelPmfBinWidth = dialogView.findViewById<TextView>(R.id.label_pmf_bin_width_settings)
+        // New UI elements for serial cutoff
+        val seekBarSerialCutoff = dialogView.findViewById<SeekBar>(R.id.seekbar_serial_cutoff_probability)
+        val labelSerialCutoff = dialogView.findViewById<TextView>(R.id.label_serial_cutoff_probability)
 
-        // Initialize with current settings
-        val currentSettings = currentBayesianSettings
 
+        val currentSettings = currentBayesianSettings // Guaranteed non-null
+
+        // Initialize mode switch
         switchMode.isChecked = currentSettings.mode == BayesianMode.PARALLEL
         switchMode.text = if (switchMode.isChecked) "Mode: Parallel" else "Mode: Serial"
         layoutParallelOptions.visibility = if (switchMode.isChecked) View.VISIBLE else View.GONE
 
+        // Initialize PMF Bin Width slider
         seekBarPmfBinWidth.progress = currentSettings.pmfBinWidth
         labelPmfBinWidth.text = "PMF Bin Width to Use: ${currentSettings.pmfBinWidth}"
+
+        // Initialize Serial Cutoff Probability slider
+        seekBarSerialCutoff.progress = (currentSettings.serialCutoffProbability * 100).roundToInt()
+        labelSerialCutoff.text = "Serial Cutoff Probability: ${String.format(Locale.US, "%.2f", currentSettings.serialCutoffProbability)}"
+
 
         // Parallel Selection Method Spinner
         ArrayAdapter.createFromResource(
@@ -178,6 +189,7 @@ class BayesianTestingFragment : Fragment() {
             )
         }
 
+        // Listeners for dialog elements
         switchMode.setOnCheckedChangeListener { _, isChecked ->
             switchMode.text = if (isChecked) "Mode: Parallel" else "Mode: Serial"
             layoutParallelOptions.visibility = if (isChecked) View.VISIBLE else View.GONE
@@ -191,6 +203,16 @@ class BayesianTestingFragment : Fragment() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
+        seekBarSerialCutoff.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val value = progress.toFloat() / 100f
+                labelSerialCutoff.text = "Serial Cutoff Probability: ${String.format(Locale.US, "%.2f", value)}"
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+
         AlertDialog.Builder(requireContext())
             .setTitle("Bayesian Prediction Settings")
             .setView(dialogView)
@@ -198,16 +220,16 @@ class BayesianTestingFragment : Fragment() {
                 val newMode = if (switchMode.isChecked) BayesianMode.PARALLEL else BayesianMode.SERIAL
                 val newSelectionMethod = if (spinnerSelectionMethod.selectedItemPosition == 0) ParallelSelectionMethod.HIGHEST_PROBABILITY else ParallelSelectionMethod.HIGHEST_PROBABILITY
                 val newPmfBinWidth = seekBarPmfBinWidth.progress.coerceAtLeast(1)
+                val newSerialCutoff = (seekBarSerialCutoff.progress.toFloat() / 100f).toDouble()  // Convert to Double
 
                 saveBayesianSettings(
                     BayesianSettings(
                         mode = newMode,
                         selectionMethod = newSelectionMethod,
-                        pmfBinWidth = newPmfBinWidth
+                        pmfBinWidth = newPmfBinWidth,
+                        serialCutoffProbability = newSerialCutoff// Save new cutoff
                     )
                 )
-                // Update the status text to reflect new settings immediately
-                textTestingStatus.text = "Ready to run tests. Using ${currentBayesianSettings.mode} mode (Bin Width: ${currentBayesianSettings.pmfBinWidth})."
             }
             .setNegativeButton("Cancel", null)
             .show()
